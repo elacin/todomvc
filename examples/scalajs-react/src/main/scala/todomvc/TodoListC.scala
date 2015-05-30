@@ -102,6 +102,6 @@ object TodoListC {
 
   def apply(s: TodoFilter, namespace: String = "todos-scalajs-react") = {
     val model = new TodoModel(Storage(dom.ext.LocalStorage, namespace))
-    component.propsConst(new Props(model, s)).build.apply()
+    component.propsRequired.build(Props(model, s))
   }
 }

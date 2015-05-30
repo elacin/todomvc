@@ -29,7 +29,7 @@ object TodoApp extends JSApp {
 
   @JSExport
   override def main() = {
-    val router = Router(baseUrl, routerConfig.logToConsole)
-    val routeC = router() render dom.document.getElementById("todoapp")
+    val router  = Router(baseUrl, routerConfig.logToConsole)()
+    val routerM = React.render(router, dom.document.getElementById("todoapp"))
   }
 }

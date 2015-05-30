@@ -12,7 +12,6 @@ object FooterC {
     current:          TodoFilter,
     onClearCompleted: () ⇒ Unit
   )
-
   val component = ReactComponentB[Props]("todo_footer")
     .render {
       props ⇒
