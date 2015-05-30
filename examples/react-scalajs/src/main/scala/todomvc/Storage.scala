@@ -3,10 +3,7 @@ package todomvc
 import org.scalajs.dom
 import upickle.{Reader, Writer}
 
-object Storage {
-  val storage: dom.ext.Storage = dom.ext.LocalStorage
-  val namespace = "todos-react-scalajs"
-
+case class Storage(storage: dom.ext.Storage, namespace: String) {
   def write[T: Writer](data: T) =
     storage(namespace) = upickle.write(data)
 

@@ -4,10 +4,15 @@ import japgolly.scalajs.react.extra.Broadcaster
 
 import scala.collection.mutable
 
-class TodoModel extends Broadcaster[Unit] {
+class TodoModel(storage: Storage) extends Broadcaster[Unit] {
+
+  /* restore saved todos */
+  storage.read[Seq[TodoItem]].foreach {
+    storedTodos ⇒ todos ++= storedTodos.map(t ⇒ (t.id, t))
+  }
 
   override protected def broadcast(a: Unit): Unit = {
-    Storage.write(todoList)
+    storage.write(todoList)
     super.broadcast(a)
   }
 
@@ -20,11 +25,6 @@ class TodoModel extends Broadcaster[Unit] {
 
   private def updateStored(id: TodoId)(f: TodoItem ⇒ TodoItem) =
     todos.get(id).foreach(existing ⇒ todos(id) = f(existing))
-
-  /* restore saved todos from local storage */
-  Storage.read[Seq[TodoItem]].foreach {
-    storedTodos ⇒ todos ++= storedTodos.map(t ⇒ (t.id, t))
-  }
 
   def addTodo(title: String): Unit =
     (todos += (TodoItem(TodoId.random, title, completed = false) by (_.id))) !

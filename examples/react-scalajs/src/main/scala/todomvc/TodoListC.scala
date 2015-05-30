@@ -3,10 +3,11 @@ package todomvc
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.extra.OnUnmount
 import japgolly.scalajs.react.vdom.prefix_<^._
+import org.scalajs.dom
 import org.scalajs.dom.ext.KeyCode
 
 object TodoListC {
-  val model = new TodoModel
+  val model = new TodoModel(Storage(dom.ext.LocalStorage, "todos-scalajs-react"))
 
   case class Props(model: TodoModel, current: TodoFilter)
 
