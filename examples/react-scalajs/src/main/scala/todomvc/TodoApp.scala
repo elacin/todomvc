@@ -13,7 +13,7 @@ object TodoApp extends JSApp {
 
   import router2._
 
-  val routerConfig = RouterConfig.build[Page] { dsl =>
+  val routerConfig = RouterConfigDsl[Page].buildConfig { dsl =>
     import dsl._
 
     def filterRoute(s: TodoFilter): Rule =

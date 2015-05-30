@@ -25,8 +25,8 @@ object Build extends Build {
       sbt.Keys.test in Test := (),
       emitSourceMaps := false,
       libraryDependencies ++= Seq(
-        "com.github.japgolly.scalajs-react" %%% "ext-scalaz71" % "0.9.0-SNAPSHOT",
-        "com.github.japgolly.scalajs-react" %%% "extra"        % "0.9.0-SNAPSHOT",
+        "com.github.japgolly.scalajs-react" %%% "ext-scalaz71" % "0.9.0",
+        "com.github.japgolly.scalajs-react" %%% "extra"        % "0.9.0",
         "com.lihaoyi"                       %%% "upickle"      % "0.2.8"
       )
     )

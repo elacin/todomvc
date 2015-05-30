@@ -43,7 +43,7 @@ object TodoListC {
     .initialState(State(None))
     .backend(Backend)
     .render {
-      case (props, state, backend) ⇒
+      (props, state, backend) ⇒
         val todos           = props.model.todoList
         val filteredTodos   = todos filter props.current.accepts
 
