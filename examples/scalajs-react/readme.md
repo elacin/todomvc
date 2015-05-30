@@ -36,7 +36,7 @@ The example can be run by opening `index.html`.
 
 #Development
 
-The sbt scala.js-plugin supports two compilation modes, which matter when developing with Scala.js.
+The scala.js plugin for sbt supports two compilation modes:
  
 * `fullOptJS` is a full program optimization, which is annoyingly slow when developing
 * `fastOptJS` is fast, but produces large generated javascript files, and hance better suited
