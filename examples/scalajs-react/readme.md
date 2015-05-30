@@ -20,6 +20,9 @@ while [Scala.js](https://www.scala-js.org) compiles it to javascript for your br
 Type-safe Scala-[bindings](https://github.com/japgolly/scalajs-react/) on top of React, 
 with a few extras thrown in.
 
+###scala-js-dom
+Scala-js-dom provides a nice statically typed interface to the DOM such that it can be called from Scala code.
+
 ###scalaz
 Though not heavily used in this example, [scalaz](https://github.com/scalaz/scalaz)
 provides all you could ever dream of in terms of functional programming for scala, 
