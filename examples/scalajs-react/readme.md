@@ -23,6 +23,12 @@ with a few extras thrown in.
 ###scala-js-dom
 Scala-js-dom provides a nice statically typed interface to the DOM such that it can be called from Scala code.
 
+###scalatags
+scalajs-react bundles a version of [scalatags](http://lihaoyi.github.io/scalatags/). 
+Scalatags is a small, fast XML/HTML/CSS construction library for Scala that lets us
+construct HTML, again in a typesafe way. This replaces other templating libraries,
+JSX in the React case, with plain old functions.
+
 ###scalaz
 Though not heavily used in this example, [scalaz](https://github.com/scalaz/scalaz)
 provides all you could ever dream of in terms of functional programming for scala, 
