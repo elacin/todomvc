@@ -20,7 +20,7 @@ while [Scala.js](https://www.scala-js.org) compiles it to javascript for your br
 Type-safe Scala-[bindings](https://github.com/japgolly/scalajs-react/) on top of React, 
 with a few extras thrown in.
 
-###scalaz (dependency of scalajs-react)
+###scalaz
 Though not heavily used in this example, [scalaz](https://github.com/scalaz/scalaz)
 provides all you could ever dream of in terms of functional programming for scala, 
 and its all (~=) supported on scala.js 
@@ -36,10 +36,7 @@ The example can be run by opening `index.html`.
 
 #Development
 
-The [sbt](/) 
- for
- supports two compilation modes, 
-which matter when developing with Scala.js.
+The sbt scala.js-plugin supports two compilation modes, which matter when developing with Scala.js.
  
 * `fullOptJS` is a full program optimization, which is annoyingly slow when developing
 * `fastOptJS` is fast, but produces large generated javascript files, and hance better suited
