@@ -2,49 +2,50 @@ package todomvc
 
 import japgolly.scalajs.react.extra.Broadcaster
 
-import scala.collection.mutable
 import scala.language.postfixOps
 
 class TodoModel(storage: Storage) extends Broadcaster[Unit] {
+  object State {
+    var todos = Seq.empty[Todo]
 
-  private val todos = mutable.Map.empty[TodoId, Todo]
+    def mod(f: Seq[Todo] ⇒ Seq[Todo]): Unit = {
+      todos = f(todos)
+      broadcast(())
+    }
+
+    def modOne(Id: TodoId)(f: Todo ⇒ Todo): Unit =
+      mod(_.map {
+        case existing@Todo(Id, _, _) ⇒ f(existing)
+        case other                   ⇒ other
+      })
+  }
 
   /* restore saved todos */
-  storage.read[Seq[Todo]].foreach {
-    storedTodos ⇒ todos ++= storedTodos.map(t ⇒ (t.id, t))
-  }
+  storage.read[Seq[Todo]].foreach(existing ⇒ State.mod(_ ++ existing))
 
   override protected def broadcast(a: Unit): Unit = {
     storage.write(todoList)
     super.broadcast(a)
   }
 
-  implicit final class TX[T](t: T){
-    def !() = broadcast(())
-    def by[U](f: T ⇒ U): (U, T) = (f(t), t)
-  }
-
-  private def updateStored(id: TodoId)(f: Todo ⇒ Todo) =
-    todos.get(id).foreach(existing ⇒ todos(id) = f(existing))
-
   def addTodo(title: String): Unit =
-    (todos += (Todo(TodoId.random, title, completed = false) by (_.id))) !()
+    State.mod(_ :+ Todo(TodoId.random, title, completed = false))
 
   def clearCompleted(): Unit =
-    todos.retain((id, todo) ⇒ !todo.completed) !()
+    State.mod(_.filterNot(_.completed))
 
   def delete(id: TodoId): Unit =
-    todos.remove(id) !()
+    State.mod(_.filterNot(_.id == id))
 
   def todoList: Seq[Todo] =
-    todos.values.toSeq
+    State.todos
 
   def toggleAll(checked: Boolean): Unit =
-    todos.keys.foreach(updateStored(_)(_.copy(completed = checked))) !()
+    State.mod(_.map(_.copy(completed = checked)))
 
   def toggleCompleted(id: TodoId): Unit =
-    updateStored(id)(old ⇒ old.copy(completed = !old.completed)) !()
+    State.modOne(id)(old ⇒ old.copy(completed = !old.completed))
 
   def update(id: TodoId, text: String): Unit =
-    updateStored(id)(_.copy(title = text)) !()
+    State.modOne(id)(_.copy(title = text))
 }
