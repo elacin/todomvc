@@ -60,7 +60,6 @@ object TodoItemC {
             <.button(^.className := "destroy", ^.onClick --> props.onDestroy())
           ),
           <.input(
-            ^.ref        := "editField",
             ^.className  := "edit",
             ^.onBlur    ==> backend.editFieldSubmit,
             ^.onChange  ==> backend.editFieldChanged,

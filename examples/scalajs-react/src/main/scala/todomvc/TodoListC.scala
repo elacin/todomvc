@@ -59,15 +59,15 @@ object TodoListC {
 
       def main =
         <.section(
-          ^.id := "main",
+          ^.className := "main",
           <.input(
-            ^.id        := "toggle-all",
+            ^.className := "toggle-all",
             ^.`type`    := "checkbox",
             ^.checked   := activeCount == 0,
             ^.onChange ==> ((e: ReactEventI) ⇒ props.model.toggleAll(e.target.checked))
           ),
           <.ul(
-            ^.id := "todo-list",
+            ^.className := "todo-list",
             filteredTodos.map(todo ⇒
               TodoItemC.component.propsRequired.build(
                 TodoItemC.Props(
@@ -87,9 +87,9 @@ object TodoListC {
 
       <.div(
         <.header(
-          ^.id := "header",
+          ^.className := "header",
           <.input(
-            ^.id          := "new-todo",
+            ^.className   := "new-todo",
             ^.placeholder := "What needs to be done?",
             ^.onKeyDown  ==> backend.handleNewTodoKeyDown,
             ^.autoFocus   := true

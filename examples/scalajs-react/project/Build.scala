@@ -37,7 +37,10 @@ object Build extends Build {
     .configure(commonSettings)
     .settings(
       sbt.Keys.test in Test := (),
-      emitSourceMaps := false,
+      emitSourceMaps := true,
+      //move these files out of target/ so we can check in generated files while keeping .gitignore
+      crossTarget in packageJSDependencies := file("generated"),
+      jsDependencies += "org.webjars" % "react" % "0.12.1" / "react-with-addons.js" commonJSName "React" minified "react-with-addons.min.js",
       libraryDependencies ++= Seq(
         "com.github.japgolly.scalajs-react" %%% "ext-scalaz71" % "0.9.0",
         "com.github.japgolly.scalajs-react" %%% "extra"        % "0.9.0",

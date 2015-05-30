@@ -16,17 +16,20 @@ object FooterC {
     .render {
       props ⇒
         def clearButton =
-          <.button(^.id := "clear-completed", ^.onClick --> props.onClearCompleted(), "Clear completed")
+          <.button(^.className := "clear-completed", ^.onClick --> props.onClearCompleted(), "Clear completed")
 
         def filterLink(s: TodoFilter): TagMod =
           <.li(<.a(^.href := s.link, (props.current == s) ?= (^.className := "selected"), s.title))
 
+        def withSpaces(ts: TagMod*) =
+          ts.toList.intersperse(" ")
+
         <.footer(
-          ^.id := "footer",
-          <.span(^.id := "todo-count", <.strong(props.count), s"${"item" plural props.count} left"),
+          ^.className := "footer",
+          <.span(^.className := "todo-count", withSpaces(<.strong(props.count), "item" plural props.count, "left")),
           <.ul(
-            ^.id := "filters",
-            (TodoFilter.values map filterLink).toList.intersperse(" "),
+            ^.className := "filters",
+            withSpaces(TodoFilter.values map filterLink),
             (props.completedCount > 0) ?= clearButton
           )
         )
