@@ -26,7 +26,7 @@ object Build extends Build {
     _.enablePlugins(ScalaJSPlugin)
     .settings(
       organization       := "com.olvind.todomvc",
-      version            := "1-SNAPSHOT",
+      version            := "1",
       licenses           += ("Apache-2.0", url("http://opensource.org/licenses/Apache-2.0")),
       scalaVersion       := "2.11.6",
       scalacOptions     ++= scalacFlags,
