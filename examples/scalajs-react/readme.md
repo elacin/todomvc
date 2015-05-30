@@ -42,15 +42,18 @@ The scala.js plugin for sbt supports two compilation modes:
 * `fastOptJS` is fast, but produces large generated javascript files. This is the one we use for development.
 
 There is a bundled `sbt` launcher which can be started like this:
+
 `./sbt`
 
 After `sbt` has downloaded the internet, you can compile once like this:
+
 `fastOptJS` 
 
 or enable continuous compilation by prefixing a tilde
+
 `~fastOptJS`
 
-The two compilation modes generates two differently named files, so there is a separate index-dev.html
+The two compilation modes generates two differently named files, so there is a separate `index-dev.html`
  which references the files generated from `fastOptJS`.
 
  
