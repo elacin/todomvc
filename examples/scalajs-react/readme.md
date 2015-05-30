@@ -3,29 +3,29 @@
 #About
 
 This example showcases a way of writing *immutable*, *type-safe*, *composable* and *functional* code for the web. 
-The following technologies are making this possible:
+The following technologies make this possible:
 
-##React
+###React
 For our purposes, [React](https://facebook.github.io/react/) 
 is a way to build web applications consisting of small components.
 Components are great because they are composable, 
 and because they impose a clear separation of state, with the rest of the code being immutable.
 
-##Scala.js
+###Scala.js
 With the [Scala programming language](http://www.scala-lang.org/) 
 you are free to write as type-safe and functional code as you want,
 while [Scala.js](https://www.scala-js.org) compiles it to javascript for your browser.
 
-##scalajs-react
+###scalajs-react
 Type-safe Scala-[bindings](https://github.com/japgolly/scalajs-react/) on top of React, 
 with a few extras thrown in.
 
-##scalaz (dependency of scalajs-react)
+###scalaz (dependency of scalajs-react)
 Though not heavily used in this example, [scalaz](https://github.com/scalaz/scalaz)
 provides all you could ever dream of in terms of functional programming for scala, 
 and its all (~=) supported on scala.js 
 
-##sbt
+###sbt
 The [scala build tool](http://www.scala-sbt.org) is coupled with a
 [plugin](http://www.scala-js.org/doc/sbt-plugin.html) 
 to enable compilation and packaging of Scala.js web applications. 
