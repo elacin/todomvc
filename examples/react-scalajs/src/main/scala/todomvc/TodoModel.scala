@@ -6,6 +6,8 @@ import scala.collection.mutable
 
 class TodoModel(storage: Storage) extends Broadcaster[Unit] {
 
+  private val todos = mutable.Map.empty[TodoId, TodoItem]
+
   /* restore saved todos */
   storage.read[Seq[TodoItem]].foreach {
     storedTodos ⇒ todos ++= storedTodos.map(t ⇒ (t.id, t))
@@ -20,8 +22,6 @@ class TodoModel(storage: Storage) extends Broadcaster[Unit] {
     def ! = broadcast(())
     def by[U](f: T ⇒ U): (U, T) = (f(t), t)
   }
-
-  private val todos = mutable.Map.empty[TodoId, TodoItem]
 
   private def updateStored(id: TodoId)(f: TodoItem ⇒ TodoItem) =
     todos.get(id).foreach(existing ⇒ todos(id) = f(existing))

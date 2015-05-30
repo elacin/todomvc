@@ -7,8 +7,6 @@ import org.scalajs.dom
 import org.scalajs.dom.ext.KeyCode
 
 object TodoListC {
-  val model = new TodoModel(Storage(dom.ext.LocalStorage, "todos-scalajs-react"))
-
   case class Props(model: TodoModel, current: TodoFilter)
 
   case class Backend(t: BackendScope[Props, State]) extends OnUnmount {
@@ -43,65 +41,67 @@ object TodoListC {
   val component = ReactComponentB[Props]("react-todos")
     .initialState(State(None))
     .backend(Backend)
-    .render {
-      (props, state, backend) ⇒
-        val todos           = props.model.todoList
-        val filteredTodos   = todos filter props.current.accepts
+    .render { (props, state, backend) ⇒
+      val todos           = props.model.todoList
+      val filteredTodos   = todos filter props.current.accepts
 
-        val activeCount     = todos count TodoFilter.Active.accepts
-        val completedCount  = todos.length - activeCount
+      val activeCount     = todos count TodoFilter.Active.accepts
+      val completedCount  = todos.length - activeCount
 
-        val footer = FooterC.component.propsConst(
-          FooterC.Props(
-            count            = activeCount,
-            completedCount   = completedCount,
-            current          = props.current,
-            onClearCompleted = _ ⇒ props.model.clearCompleted()
-          )).build.apply()
+      def footer = FooterC.component.propsRequired.build(
+        FooterC.Props(
+          count            = activeCount,
+          completedCount   = completedCount,
+          current          = props.current,
+          onClearCompleted = props.model.clearCompleted
+        )
+      )
 
-        val main =
-          <.section(
-            ^.id := "main",
-            <.input(
-              ^.id        := "toggle-all",
-              ^.`type`    := "checkbox",
-              ^.checked   := activeCount == 0,
-              ^.onChange ==> ((e: ReactEventI) ⇒ props.model.toggleAll(e.target.checked))
-            ),
-            <.ul(
-              ^.id := "todo-list",
-              filteredTodos.map(	todo ⇒
-                TodoItemC.component.propsConst(
-                  TodoItemC.Props(
+      def main =
+        <.section(
+          ^.id := "main",
+          <.input(
+            ^.id        := "toggle-all",
+            ^.`type`    := "checkbox",
+            ^.checked   := activeCount == 0,
+            ^.onChange ==> ((e: ReactEventI) ⇒ props.model.toggleAll(e.target.checked))
+          ),
+          <.ul(
+            ^.id := "todo-list",
+            filteredTodos.map(todo ⇒
+              TodoItemC.component.propsRequired.build(
+                TodoItemC.Props(
                     id        = todo.id,
                     todo      = todo,
                     editing   = state.editing.contains(todo.id),
-                    onToggle  = _ ⇒ props.model.toggleCompleted(todo.id),
-                    onDestroy = _ ⇒ props.model.delete(todo.id),
-                    onEdit    = _ ⇒ backend.edit(todo.id),
+                    onToggle  = () ⇒ props.model.toggleCompleted(todo.id),
+                    onDestroy = () ⇒ props.model.delete(todo.id),
+                    onEdit    = () ⇒ backend.edit(todo.id),
                     onSave    = s ⇒ backend.save(todo.id, s),
-                    onCancel  = _ ⇒ backend.cancel()
+                    onCancel  = backend.cancel
                   )
-                ).build.apply()
               )
             )
           )
-
-        <.div(
-          <.header(
-            ^.id := "header",
-            <.input(
-              ^.id          := "new-todo",
-              ^.placeholder := "What needs to be done?",
-              ^.onKeyDown  ==> backend.handleNewTodoKeyDown,
-              ^.autoFocus   := true
-            )
-          ),
-          Some(main  ).filter(_ ⇒ todos.nonEmpty),
-          Some(footer).filter(_ ⇒ todos.nonEmpty)
         )
+
+      <.div(
+        <.header(
+          ^.id := "header",
+          <.input(
+            ^.id          := "new-todo",
+            ^.placeholder := "What needs to be done?",
+            ^.onKeyDown  ==> backend.handleNewTodoKeyDown,
+            ^.autoFocus   := true
+          )
+        ),
+        todos.nonEmpty ?= main,
+        todos.nonEmpty ?= footer
+      )
   }.configure(OnUnmount.install)
 
-  def apply(s: TodoFilter) =
+  def apply(s: TodoFilter, namespace: String = "todos-scalajs-react") = {
+    val model = new TodoModel(Storage(dom.ext.LocalStorage, namespace))
     component.propsConst(new Props(model, s)).build.apply()
+  }
 }

@@ -10,11 +10,11 @@ object TodoItemC {
     id:        TodoId,
     todo:      TodoItem,
     editing:   Boolean,
-    onToggle:  ReactEvent ⇒ Unit,
-    onDestroy: ReactEvent ⇒ Unit,
-    onEdit:    ReactEvent ⇒ Unit,
-    onSave:    String     ⇒ Unit,
-    onCancel:  ReactEvent ⇒ Unit)
+    onToggle:  ()     ⇒ Unit,
+    onDestroy: ()     ⇒ Unit,
+    onEdit:    ()     ⇒ Unit,
+    onSave:    String ⇒ Unit,
+    onCancel:  ()     ⇒ Unit)
 
   case class State(editText: String)
 
@@ -28,7 +28,7 @@ object TodoItemC {
       event.nativeEvent.keyCode match {
         case KeyCode.escape ⇒
           t.modState(_.copy(editText = t.props.todo.title))
-          t.props.onCancel(event)
+          t.props.onCancel()
         case KeyCode.enter ⇒
           handleSubmit(event)
         case _ ⇒ ()
@@ -54,10 +54,10 @@ object TodoItemC {
               ^.className := "toggle",
               ^.`type`    := "checkbox",
               ^.checked   := props.todo.completed,
-              ^.onChange ==> props.onToggle
+              ^.onChange --> props.onToggle()
             ),
-            <.label(props.todo.title, ^.onClick ==> props.onEdit),
-            <.button(^.className := "destroy", ^.onClick ==> props.onDestroy)
+            <.label(props.todo.title, ^.onClick --> props.onEdit()),
+            <.button(^.className := "destroy", ^.onClick --> props.onDestroy())
           ),
           <.input(
             ^.ref       := "editField",
