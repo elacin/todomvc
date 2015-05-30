@@ -39,7 +39,7 @@ The example can be run by opening `index.html`.
 The scala.js plugin for sbt supports two compilation modes:
  
 * `fullOptJS` is a full program optimization, which is annoyingly slow when developing
-* `fastOptJS` is fast, but produces large generated javascript files, and hance better suited
+* `fastOptJS` is fast, but produces large generated javascript files. This is the one we use for development.
 
 There is a bundled `sbt` launcher which can be started like this:
 `./sbt`
