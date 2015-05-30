@@ -4,11 +4,11 @@ import japgolly.scalajs.react._
 import japgolly.scalajs.react.vdom.prefix_<^._
 import org.scalajs.dom.ext.KeyCode
 
-object TodoItemC {
+object TodoItem {
 
   case class Props(
     id:        TodoId,
-    todo:      TodoItem,
+    todo:      Todo,
     editing:   Boolean,
     onToggle:  ()     ⇒ Unit,
     onDestroy: ()     ⇒ Unit,

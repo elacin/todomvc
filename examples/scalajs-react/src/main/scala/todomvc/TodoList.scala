@@ -6,7 +6,7 @@ import japgolly.scalajs.react.vdom.prefix_<^._
 import org.scalajs.dom
 import org.scalajs.dom.ext.KeyCode
 
-object TodoListC {
+object TodoList {
   case class Props(model: TodoModel, current: TodoFilter)
 
   case class Backend(t: BackendScope[Props, State]) extends OnUnmount {
@@ -48,8 +48,8 @@ object TodoListC {
       val activeCount     = todos count TodoFilter.Active.accepts
       val completedCount  = todos.length - activeCount
 
-      def footer = FooterC.component.propsRequired.build(
-        FooterC.Props(
+      def footer = Footer.component.propsRequired.build(
+        Footer.Props(
           count            = activeCount,
           completedCount   = completedCount,
           current          = props.current,
@@ -69,8 +69,8 @@ object TodoListC {
           <.ul(
             ^.className := "todo-list",
             filteredTodos.map(todo ⇒
-              TodoItemC.component.propsRequired.build(
-                TodoItemC.Props(
+              TodoItem.component.propsRequired.build(
+                TodoItem.Props(
                     id        = todo.id,
                     todo      = todo,
                     editing   = state.editing.contains(todo.id),

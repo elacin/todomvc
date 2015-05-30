@@ -5,7 +5,7 @@ import japgolly.scalajs.react.vdom.prefix_<^._
 import scalaz.syntax.std.string._
 import scalaz.syntax.std.list._
 
-object FooterC {
+object Footer {
   case class Props(
     count:            Int,
     completedCount:   Int,

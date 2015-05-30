@@ -7,7 +7,7 @@ import org.scalajs.dom
 import scala.scalajs.js.JSApp
 import scala.scalajs.js.annotation.JSExport
 
-object TodoApp extends JSApp {
+object Main extends JSApp {
 
   case class Page(s: TodoFilter)
 
@@ -17,7 +17,7 @@ object TodoApp extends JSApp {
     import dsl._
 
     def filterRoute(s: TodoFilter): Rule =
-      staticRoute(s.link, Page(s)) ~> render(TodoListC(s))
+      staticRoute(s.link, Page(s)) ~> render(TodoList(s))
 
     val filterRoutes: Rule =
       TodoFilter.values map filterRoute reduce (_ | _)

@@ -7,10 +7,10 @@ import scala.language.postfixOps
 
 class TodoModel(storage: Storage) extends Broadcaster[Unit] {
 
-  private val todos = mutable.Map.empty[TodoId, TodoItem]
+  private val todos = mutable.Map.empty[TodoId, Todo]
 
   /* restore saved todos */
-  storage.read[Seq[TodoItem]].foreach {
+  storage.read[Seq[Todo]].foreach {
     storedTodos ⇒ todos ++= storedTodos.map(t ⇒ (t.id, t))
   }
 
@@ -24,11 +24,11 @@ class TodoModel(storage: Storage) extends Broadcaster[Unit] {
     def by[U](f: T ⇒ U): (U, T) = (f(t), t)
   }
 
-  private def updateStored(id: TodoId)(f: TodoItem ⇒ TodoItem) =
+  private def updateStored(id: TodoId)(f: Todo ⇒ Todo) =
     todos.get(id).foreach(existing ⇒ todos(id) = f(existing))
 
   def addTodo(title: String): Unit =
-    (todos += (TodoItem(TodoId.random, title, completed = false) by (_.id))) !()
+    (todos += (Todo(TodoId.random, title, completed = false) by (_.id))) !()
 
   def clearCompleted(): Unit =
     todos.retain((id, todo) ⇒ !todo.completed) !()
@@ -36,7 +36,7 @@ class TodoModel(storage: Storage) extends Broadcaster[Unit] {
   def delete(id: TodoId): Unit =
     todos.remove(id) !()
 
-  def todoList: Seq[TodoItem] =
+  def todoList: Seq[Todo] =
     todos.values.toSeq
 
   def toggleAll(checked: Boolean): Unit =
