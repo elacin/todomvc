@@ -10,8 +10,8 @@ object TodoListC {
   case class Props(model: TodoModel, current: TodoFilter)
 
   case class Backend(t: BackendScope[Props, State]) extends OnUnmount {
-    /** not sure if this is a good way to do it - any change in the
-      * model immediately triggers a new rendering because of this */
+    /** I deliberately held the model out of the state to simulate that
+      * it lives elsewhere - this handles the necessary signaling  */
     val unregister = t.props.model.register(_ ⇒ t.forceUpdate())
     onUnmountF(unregister)
 

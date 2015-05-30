@@ -28,8 +28,8 @@ object TodoApp extends JSApp {
   val baseUrl = BaseUrl(dom.window.location.href.takeWhile(_ != '#'))
 
   @JSExport
-  override def main(): Unit = {
+  override def main() = {
     val router = Router(baseUrl, routerConfig.logToConsole)
-    router() render dom.document.getElementById("todoapp")
+    val routeC = router() render dom.document.getElementById("todoapp")
   }
 }

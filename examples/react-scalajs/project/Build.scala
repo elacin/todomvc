@@ -5,6 +5,22 @@ import org.scalajs.sbtplugin.ScalaJSPlugin
 import ScalaJSPlugin.autoImport._
 
 object Build extends Build {
+  val scalacFlags = Seq(
+    "-deprecation",
+    "-encoding", "UTF-8",
+    "-feature",
+    "-language:existentials",
+    "-language:higherKinds",
+    "-language:implicitConversions",
+    "-unchecked",
+    "-Xfatal-warnings",
+    "-Xlint",
+    "-Yno-adapted-args",
+    "-Ywarn-dead-code",
+    "-Ywarn-value-discard",
+    "-Xfuture",
+    "-Ywarn-unused-import"
+  )
 
   def commonSettings: Project => Project =
     _.enablePlugins(ScalaJSPlugin)
@@ -13,9 +29,7 @@ object Build extends Build {
       version            := "1-SNAPSHOT",
       licenses           += ("Apache-2.0", url("http://opensource.org/licenses/Apache-2.0")),
       scalaVersion       := "2.11.6",
-      scalacOptions     ++= Seq("-deprecation", "-unchecked", "-feature",
-                              "-language:postfixOps", "-language:implicitConversions",
-                              "-language:higherKinds", "-language:existentials"),
+      scalacOptions     ++= scalacFlags,
       updateOptions      := updateOptions.value.withCachedResolution(true)
   )
 
