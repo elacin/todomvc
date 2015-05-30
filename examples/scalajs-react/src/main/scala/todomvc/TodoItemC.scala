@@ -19,22 +19,22 @@ object TodoItemC {
   case class State(editText: String)
 
   case class TodoItemBackend(t: BackendScope[Props, State]){
-    def handleSubmit(event: ReactEvent) =
+    def editFieldSubmit(event: ReactEvent) =
       Option(t.state.editText.trim)
         .filter(_.nonEmpty)
         .foreach(t.props.onSave)
 
-    def handleKeyDown(event: ReactKeyboardEvent) =
+    def editFieldKeyDown(event: ReactKeyboardEvent) =
       event.nativeEvent.keyCode match {
         case KeyCode.escape ⇒
           t.modState(_.copy(editText = t.props.todo.title))
           t.props.onCancel()
         case KeyCode.enter ⇒
-          handleSubmit(event)
+          editFieldSubmit(event)
         case _ ⇒ ()
       }
 
-    def handleChange(event: ReactEventI) =
+    def editFieldChanged(event: ReactEventI) =
       t.modState(_.copy(editText = event.target.value))
   }
 
@@ -60,11 +60,11 @@ object TodoItemC {
             <.button(^.className := "destroy", ^.onClick --> props.onDestroy())
           ),
           <.input(
-            ^.ref       := "editField",
-            ^.className := "edit",
-            ^.onBlur    ==> backend.handleSubmit,
-            ^.onChange  ==> backend.handleChange,
-            ^.onKeyDown ==> backend.handleKeyDown,
+            ^.ref        := "editField",
+            ^.className  := "edit",
+            ^.onBlur    ==> backend.editFieldSubmit,
+            ^.onChange  ==> backend.editFieldChanged,
+            ^.onKeyDown ==> backend.editFieldKeyDown,
             ^.value      := state.editText
           )
         )
