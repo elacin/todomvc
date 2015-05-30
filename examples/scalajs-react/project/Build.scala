@@ -17,6 +17,7 @@ object Build extends Build {
       sbt.Keys.test in Test := (),
       emitSourceMaps        := true,
       //move these files out of target/ so we can check in generated files while keeping .gitignore
+      crossTarget in fullOptJS := file("generated"),
       crossTarget in packageJSDependencies := file("generated"),
       jsDependencies +=
         "org.webjars" % "react" % "0.12.1" / "react-with-addons.js" commonJSName "React" minified "react-with-addons.min.js",

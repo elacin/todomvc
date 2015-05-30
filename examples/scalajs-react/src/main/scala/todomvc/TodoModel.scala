@@ -37,7 +37,7 @@ class TodoModel(storage: Storage) extends Broadcaster[Unit] {
     todos.remove(id) !()
 
   def todoList: Seq[TodoItem] =
-    todos.values.toSeq.sortBy(_.title)
+    todos.values.toSeq
 
   def toggleAll(checked: Boolean): Unit =
     todos.keys.foreach(updateStored(_)(_.copy(completed = checked))) !()
