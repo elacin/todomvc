@@ -62,7 +62,7 @@ or enable continuous compilation by prefixing a tilde
 
 `~fastOptJS`
 
-The two compilation modes generates two differently named files, so there is a separate `index-dev.html`
+The two compilation modes generate two differently named files, so there is a separate `index-dev.html`
  which references the files generated from `fastOptJS`.
 
  

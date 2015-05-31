@@ -34,6 +34,9 @@ object TodoList {
 
     def cancel() =
       t.modState(_.copy(editing = None))
+
+    def toggleAll(e: ReactEventI) =
+      t.props.model.toggleAll(e.target.checked)
   }
 
   case class State(editing: Option[TodoId])
@@ -64,7 +67,7 @@ object TodoList {
             ^.className := "toggle-all",
             ^.`type`    := "checkbox",
             ^.checked   := activeCount == 0,
-            ^.onChange ==> ((e: ReactEventI) ⇒ props.model.toggleAll(e.target.checked))
+            ^.onChange ==> backend.toggleAll
           ),
           <.ul(
             ^.className := "todo-list",
