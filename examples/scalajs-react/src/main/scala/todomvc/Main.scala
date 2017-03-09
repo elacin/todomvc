@@ -1,7 +1,15 @@
 package todomvc
 
-import japgolly.scalajs.react._
-import japgolly.scalajs.react.extra.router._
+import japgolly.scalajs.react.component.Scala.Unmounted
+import japgolly.scalajs.react.extra.OnUnmount
+import japgolly.scalajs.react.extra.router.{
+  BaseUrl,
+  Redirect,
+  Resolution,
+  Router,
+  RouterConfig,
+  RouterConfigDsl
+}
 import org.scalajs.dom
 
 import scala.scalajs.js.JSApp
@@ -30,20 +38,23 @@ object Main extends JSApp {
   val model: TodoModel =
     new TodoModel(Storage(dom.ext.LocalStorage, "todos-scalajs-react"))
 
-  model.restorePersisted.foreach(_.runNow())
-
-  /** The router is itself a React component, which at this point is not mounted (U-suffix) */
-  val router: ReactComponentU[Unit, Resolution[TodoFilter], Any, TopNode] =
+  /** The router is itself a React component, which at this point is not mounted */
+  val router: Unmounted[Unit, Resolution[TodoFilter], OnUnmount.Backend] =
     Router(baseUrl, routerConfig.logToConsole)()
 
   /**
-   * Main entry point, which the sbt plugin finds and makes the browser run.
-   *
-   * Takes the unmounted router component and gives to React,
-   *  will render into the first element with `todoapp` class
-   */
+    * Main entry point, which the sbt plugin finds and makes the browser run.
+    *
+    * Takes the unmounted router component and gives to React,
+    *  will render into the first element with `todoapp` class
+    */
   @JSExport
   override def main(): Unit = {
-    val mounted = ReactDOM.render(router, dom.document.getElementsByClassName("todoapp")(0))
+    model.restorePersisted.foreach(_.runNow())
+
+    router.renderIntoDOM(
+      dom.document.getElementsByClassName("todoapp")(0).asInstanceOf[dom.html.Element])
+
+    ()
   }
 }

@@ -14,7 +14,7 @@ case class Storage(storage: dom.ext.Storage, namespace: String) {
     Try(storage(namespace) map read[T]) match {
       case Success(Some(t)) => Some(t)
       case Success(None)    => None
-      case Failure(th)      =>
+      case Failure(th) =>
         dom.console.error(s"Got invalid data ${th.getMessage}")
         None
     }

@@ -3,8 +3,6 @@ package todomvc
 import japgolly.scalajs.react.Callback
 import japgolly.scalajs.react.extra.Broadcaster
 
-import scala.language.postfixOps
-
 class TodoModel(storage: Storage) extends Broadcaster[Seq[Todo]] {
   private object State {
     var todos = Seq.empty[Todo]
@@ -12,15 +10,13 @@ class TodoModel(storage: Storage) extends Broadcaster[Seq[Todo]] {
     def mod(f: Seq[Todo] => Seq[Todo]): Callback = {
       val newTodos = f(todos)
 
-      Callback(todos = newTodos) >>
-      storage.store(newTodos)    >>
-      broadcast(newTodos)
+      Callback(todos = newTodos) >> storage.store(newTodos) >> broadcast(newTodos)
     }
 
     def modOne(Id: TodoId)(f: Todo => Todo): Callback =
       mod(_.map {
-        case existing@Todo(Id, _, _) => f(existing)
-        case other                   => other
+        case existing @ Todo(Id, _, _) => f(existing)
+        case other                     => other
       })
   }
 

@@ -1,3 +1,5 @@
+.tmp
+.idea
 target
 node_modules/todomvc-common
 !node_modules/todomvc-common/base.js
